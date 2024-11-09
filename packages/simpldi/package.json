@@ -8,7 +8,7 @@
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "npm run prebuild && tsc -p tsconfig.build.json",
-    "test": "env JEST_ROOT_DIR=packages/core jest --config ../../jest.config.js"
+    "test": "env JEST_ROOT_DIR=packages/simpldi jest --config ../../jest.config.js"
   },
   "devDependencies": {
     "@swc/core": "~1.9.1",

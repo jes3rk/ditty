@@ -1,20 +1,9 @@
-// import typescriptEslintEslintPlugin from "@typescript-eslint/eslint-plugin";
 const typescriptEslintEslintPlugin = require("@typescript-eslint/eslint-plugin");
-// import globals from "globals";
 const globals = require("globals");
-// import tsParser from "@typescript-esl/int/parser";
 const tsParser = require("@typescript-eslint/parser");
-// import path from "node:path";
-const path = require("node:path");
-// import { fileURLToPath } from "node:url";
-const {fileURLToPath} = require("node:url");
-// import js from "@eslint/js";
 const js = require("@eslint/js")
-// import { FlatCompat } from "@eslint/eslintrc";
 const {FlatCompat} = require("@eslint/eslintrc");
 
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
 const compat = new FlatCompat({
     baseDirectory: __dirname,
     recommendedConfig: js.configs.recommended,
