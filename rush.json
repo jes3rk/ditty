@@ -333,7 +333,8 @@
     {
       "packageName": "@ditty/simpldi",
       "projectFolder": "packages/simpldi",
-      "shouldPublish": true
+      "shouldPublish": true,
+      "tags": ["package"]
     }
     // {
     //   /**
