@@ -1,4 +1,5 @@
 import { INJECT_META_KEY } from "./inject";
+import { ProviderNotFoundException } from "./provider-not-found.exception";
 import { Token } from "./token";
 import {
   Constructable,
@@ -63,17 +64,19 @@ export class Container {
       const provider = this.providers.get(token) as Provider<T>;
       return provider.instance || (await this.constructInstance(provider));
     }
-    throw Error();
+    throw new ProviderNotFoundException(token);
   }
 
   private async constructInstance<T>(provider: Provider<T>): Promise<T> {
     let instance: T;
+    const injectInstances = [];
+    for (const token of provider.inject) {
+      injectInstances.push(await this.resolveProvider(token));
+    }
     switch (provider.type) {
       case ProviderType.CLASS:
         instance = new (provider as IClassProvider<T>).Constructor(
-          ...(await Promise.all(
-            provider.inject.map((t) => this.resolveProvider(t)),
-          )),
+          ...injectInstances,
         );
         break;
     }

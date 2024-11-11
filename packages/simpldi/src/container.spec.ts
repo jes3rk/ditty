@@ -1,5 +1,6 @@
 import { Container } from "./container";
 import { Inject } from "./inject";
+import { ProviderNotFoundException } from "./provider-not-found.exception";
 import { Token } from "./token";
 import { ProviderMode } from "./types";
 
@@ -35,6 +36,17 @@ describe("Container interactions", () => {
 
     const oneDepToken = new Token<ProviderWithOneDep>("One Dep");
 
+    class ProviderWithMultipleDeps extends ProviderWithNoDeps {
+      constructor(
+        @Inject(noDepsToken) public readonly noDeps: ProviderWithNoDeps,
+        @Inject(oneDepToken) public readonly oneDep: ProviderWithOneDep,
+      ) {
+        super();
+      }
+    }
+
+    const mulipleDepToken = new Token<ProviderWithMultipleDeps>("many deps");
+
     it("should resolve a single provider with no dependencies", async () => {
       rootContainer.addProvider(noDepsToken, ProviderWithNoDeps);
       const provider = await rootContainer.resolveProvider(noDepsToken);
@@ -69,8 +81,20 @@ describe("Container interactions", () => {
       expect(provider1.dep.Id).not.toEqual(provider2.Id);
     });
 
-    it.todo("should resolve a provider with multiple dependencies");
-    it.todo("should throw an exception when resolving a missing provider");
+    it("should resolve a provider with multiple dependencies", async () => {
+      rootContainer.addProvider(noDepsToken, ProviderWithNoDeps);
+      rootContainer.addProvider(oneDepToken, ProviderWithOneDep);
+      rootContainer.addProvider(mulipleDepToken, ProviderWithMultipleDeps);
+      const provider = await rootContainer.resolveProvider(mulipleDepToken);
+      expect(provider).toBeInstanceOf(ProviderWithMultipleDeps);
+      expect(provider.noDeps.Id).toEqual(provider.oneDep.dep.Id);
+    });
+
+    it("should throw an exception when resolving a missing provider", async () => {
+      await expect(() =>
+        rootContainer.resolveProvider(noDepsToken),
+      ).rejects.toThrow(ProviderNotFoundException);
+    });
   });
 
   describe("Multi layer provider lifecycle", () => {
