@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@dtty/simpldi",
+      "comment": "Initial release",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@dtty/simpldi"
+}

@@ -25,6 +25,7 @@
       "summary": "Run test scripts in each of the packages in the project",
       "safeForSimultaneousRushProcesses": false,
       "shellCommand": "rushx test",
+      "allowWarningsInSuccessfulBuild": true,
       "enableParallelism": true
     }
     // {

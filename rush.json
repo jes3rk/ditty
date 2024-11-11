@@ -331,9 +331,10 @@
    */
   "projects": [
     {
-      "packageName": "@ditty/simpldi",
+      "packageName": "@dtty/simpldi",
       "projectFolder": "packages/simpldi",
-      "shouldPublish": true
+      "shouldPublish": true,
+      "tags": ["package"]
     }
     // {
     //   /**
