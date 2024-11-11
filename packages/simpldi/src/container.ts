@@ -64,6 +64,9 @@ export class Container {
       const provider = this.providers.get(token) as Provider<T>;
       return provider.instance || (await this.constructInstance(provider));
     }
+    if (this.parent) {
+      return this.parent.resolveProvider(token);
+    }
     throw new ProviderNotFoundException(token);
   }
 

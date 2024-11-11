@@ -6,6 +6,33 @@ import { ProviderMode } from "./types";
 
 describe("Container interactions", () => {
   let rootContainer: Container;
+  class ProviderWithNoDeps {
+    public readonly Id: string;
+    constructor() {
+      this.Id = (Math.random() * Date.now()).toString();
+    }
+  }
+
+  const noDepsToken = new Token<ProviderWithNoDeps>("No deps");
+
+  class ProviderWithOneDep extends ProviderWithNoDeps {
+    constructor(@Inject(noDepsToken) public readonly dep: ProviderWithNoDeps) {
+      super();
+    }
+  }
+
+  const oneDepToken = new Token<ProviderWithOneDep>("One Dep");
+
+  class ProviderWithMultipleDeps extends ProviderWithNoDeps {
+    constructor(
+      @Inject(noDepsToken) public readonly noDeps: ProviderWithNoDeps,
+      @Inject(oneDepToken) public readonly oneDep: ProviderWithOneDep,
+    ) {
+      super();
+    }
+  }
+
+  const mulipleDepToken = new Token<ProviderWithMultipleDeps>("many deps");
 
   beforeEach(() => {
     rootContainer = new Container();
@@ -17,36 +44,6 @@ describe("Container interactions", () => {
   });
 
   describe("Single layer provider lifecycle", () => {
-    class ProviderWithNoDeps {
-      public readonly Id: string;
-      constructor() {
-        this.Id = (Math.random() * Date.now()).toString();
-      }
-    }
-
-    const noDepsToken = new Token<ProviderWithNoDeps>("No deps");
-
-    class ProviderWithOneDep extends ProviderWithNoDeps {
-      constructor(
-        @Inject(noDepsToken) public readonly dep: ProviderWithNoDeps,
-      ) {
-        super();
-      }
-    }
-
-    const oneDepToken = new Token<ProviderWithOneDep>("One Dep");
-
-    class ProviderWithMultipleDeps extends ProviderWithNoDeps {
-      constructor(
-        @Inject(noDepsToken) public readonly noDeps: ProviderWithNoDeps,
-        @Inject(oneDepToken) public readonly oneDep: ProviderWithOneDep,
-      ) {
-        super();
-      }
-    }
-
-    const mulipleDepToken = new Token<ProviderWithMultipleDeps>("many deps");
-
     it("should resolve a single provider with no dependencies", async () => {
       rootContainer.addProvider(noDepsToken, ProviderWithNoDeps);
       const provider = await rootContainer.resolveProvider(noDepsToken);
@@ -98,17 +95,26 @@ describe("Container interactions", () => {
   });
 
   describe("Multi layer provider lifecycle", () => {
-    // var childContainer: Container;
+    let childContainer: Container;
 
-    // beforeEach(() => {
-    //   childContainer= rootContainer.createChildContainer();
-    // })
+    beforeEach(() => {
+      childContainer = rootContainer.createChildContainer();
+    });
 
-    it.todo(
-      "should resolve a provider from the child using a parent dependency",
-    );
-    it.todo(
-      "should throw an exception when resolving a provider that depends on the child",
-    );
+    it("should resolve a provider from the child using a parent dependency", async () => {
+      rootContainer.addProvider(noDepsToken, ProviderWithNoDeps);
+      childContainer.addProvider(oneDepToken, ProviderWithOneDep);
+      const provider1 = await childContainer.resolveProvider(oneDepToken);
+      const provider2 = await rootContainer.resolveProvider(noDepsToken);
+      expect(provider1.dep.Id).toEqual(provider2.Id);
+    });
+
+    it("should throw an exception when resolving a provider that depends on the child", async () => {
+      childContainer.addProvider(noDepsToken, ProviderWithNoDeps);
+      rootContainer.addProvider(oneDepToken, ProviderWithOneDep);
+      await expect(() =>
+        childContainer.resolveProvider(oneDepToken),
+      ).rejects.toThrow(ProviderNotFoundException);
+    });
   });
 });
