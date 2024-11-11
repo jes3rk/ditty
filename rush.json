@@ -331,7 +331,7 @@
    */
   "projects": [
     {
-      "packageName": "@ditty/simpldi",
+      "packageName": "@dtty/simpldi",
       "projectFolder": "packages/simpldi",
       "shouldPublish": true,
       "tags": ["package"]

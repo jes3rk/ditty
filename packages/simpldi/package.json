@@ -1,5 +1,5 @@
 {
-  "name": "@ditty/simpldi",
+  "name": "@dtty/simpldi",
   "version": "0.0.0",
   "description": "Simple and compact Dependency Injection library for TS",
   "license": "ISC",
