@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@dtty/simpldi",
+      "comment": "Add npmignore",
+      "type": "none"
+    }
+  ],
+  "packageName": "@dtty/simpldi"
+}
