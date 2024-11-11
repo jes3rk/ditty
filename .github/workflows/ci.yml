@@ -7,6 +7,9 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -56,11 +59,15 @@ jobs:
           node common/scripts/install-run-rush.js test --to tag:package
   publsh:
     runs-on: ubuntu-latest
-    needs: [verify]
+    needs: [test-packages]
     if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Init git
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
       - name: Setup Node
         uses: actions/setup-node@v3.1.1
         with:
@@ -74,5 +81,12 @@ jobs:
         run: node common/scripts/install-run-rush.js install --to tag:package
       - name: Rush Build
         run: node common/scripts/install-run-rush.js build --to tag:package
+      - name: Version
+        run: node common/scripts/install-run-rush.js version
+      - name: Commit and push
+        run: |
+          git add -A
+          git commit --no-verify -m "[skip ci] bump versions"
+          git push
       - name: Publish
         run: node common/scripts/install-run-rush.js publish --publish -n ${{ secrets.NPM_TOKEN }} --include-all --set-access-level public
