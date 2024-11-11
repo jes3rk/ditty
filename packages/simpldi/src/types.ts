@@ -4,6 +4,11 @@ export enum ProviderType {
   CLASS,
 }
 
+export enum ProviderMode {
+  SINGLETON,
+  TRANSIENT,
+}
+
 export interface Constructable<T> {
   new (...args: any[]): T;
 }
@@ -13,6 +18,7 @@ export interface Provider<T> {
   token: Token<T>;
   instance?: T;
   inject: Token<unknown>[];
+  mode: ProviderMode;
 }
 
 export interface IClassProvider<T> extends Provider<T> {

@@ -1,6 +1,12 @@
 import { INJECT_META_KEY } from "./inject";
 import { Token } from "./token";
-import { Constructable, IClassProvider, Provider, ProviderType } from "./types";
+import {
+  Constructable,
+  IClassProvider,
+  Provider,
+  ProviderMode,
+  ProviderType,
+} from "./types";
 
 /**
  * Dependency injection container
@@ -28,7 +34,12 @@ export class Container {
   /**
    * Add a provider to the container using a token and a type
    **/
-  public addProvider<T>(token: Token<T>, Constructor: Constructable<T>): void {
+  public addProvider<T>(
+    token: Token<T>,
+    Constructor: Constructable<T>,
+    options: Pick<Partial<Provider<T>>, "mode"> = {},
+  ): void {
+    const { mode = ProviderMode.SINGLETON } = options;
     const provider: IClassProvider<T> = {
       type: ProviderType.CLASS,
       token,
@@ -39,6 +50,7 @@ export class Container {
           Constructor,
           undefined,
         ) || [],
+      mode,
     };
     this.providers.set(token, provider);
   }
@@ -65,7 +77,8 @@ export class Container {
         );
         break;
     }
-    this.providers.set(provider.token, { ...provider, instance });
+    if (provider.mode == ProviderMode.SINGLETON)
+      this.providers.set(provider.token, { ...provider, instance });
     return instance;
   }
 }

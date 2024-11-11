@@ -1,6 +1,7 @@
 import { Container } from "./container";
 import { Inject } from "./inject";
 import { Token } from "./token";
+import { ProviderMode } from "./types";
 
 describe("Container interactions", () => {
   let rootContainer: Container;
@@ -58,7 +59,16 @@ describe("Container interactions", () => {
       expect(provider.Id).not.toEqual(provider.dep.Id);
     });
 
-    it.todo("should resolve a single provider with a transient dependency");
+    it("should resolve a single provider with a transient dependency", async () => {
+      rootContainer.addProvider(oneDepToken, ProviderWithOneDep);
+      rootContainer.addProvider(noDepsToken, ProviderWithNoDeps, {
+        mode: ProviderMode.TRANSIENT,
+      });
+      const provider1 = await rootContainer.resolveProvider(oneDepToken);
+      const provider2 = await rootContainer.resolveProvider(noDepsToken);
+      expect(provider1.dep.Id).not.toEqual(provider2.Id);
+    });
+
     it.todo("should resolve a provider with multiple dependencies");
     it.todo("should throw an exception when resolving a missing provider");
   });
