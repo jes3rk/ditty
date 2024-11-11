@@ -25,3 +25,7 @@ export interface IClassProvider<T> extends Provider<T> {
   type: ProviderType.CLASS;
   Constructor: Constructable<T>;
 }
+
+export interface IOnProviderInit {
+  onProviderInit(): void | Promise<void>;
+}

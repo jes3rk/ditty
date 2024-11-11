@@ -8,4 +8,5 @@ export {
   Constructable,
   Provider,
   IClassProvider,
+  IOnProviderInit,
 } from "./types";

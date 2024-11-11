@@ -4,6 +4,7 @@ import { Token } from "./token";
 import {
   Constructable,
   IClassProvider,
+  IOnProviderInit,
   Provider,
   ProviderMode,
   ProviderType,
@@ -83,6 +84,7 @@ export class Container {
         );
         break;
     }
+    await (instance as Partial<IOnProviderInit>).onProviderInit?.();
     if (provider.mode == ProviderMode.SINGLETON)
       this.providers.set(provider.token, { ...provider, instance });
     return instance;

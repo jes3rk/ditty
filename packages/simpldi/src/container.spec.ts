@@ -2,7 +2,7 @@ import { Container } from "./container";
 import { Inject } from "./inject";
 import { ProviderNotFoundException } from "./provider-not-found.exception";
 import { Token } from "./token";
-import { ProviderMode } from "./types";
+import { IOnProviderInit, ProviderMode } from "./types";
 
 describe("Container interactions", () => {
   let rootContainer: Container;
@@ -115,6 +115,31 @@ describe("Container interactions", () => {
       await expect(() =>
         childContainer.resolveProvider(oneDepToken),
       ).rejects.toThrow(ProviderNotFoundException);
+    });
+  });
+
+  describe("Provider lifecycle methods", () => {
+    class InitAbleProvider
+      extends ProviderWithNoDeps
+      implements IOnProviderInit
+    {
+      public isInit: boolean;
+
+      constructor() {
+        super();
+        this.isInit = false;
+      }
+      public onProviderInit(): void {
+        this.isInit = true;
+      }
+    }
+
+    const initToken = new Token<InitAbleProvider>();
+
+    it("should call onProviderInit if present when constructing a provider instance", async () => {
+      rootContainer.addProvider(initToken, InitAbleProvider);
+      const provider = await rootContainer.resolveProvider(initToken);
+      expect(provider.isInit).toEqual(true);
     });
   });
 });
