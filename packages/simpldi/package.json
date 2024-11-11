@@ -10,6 +10,9 @@
     "build": "npm run prebuild && tsc -p tsconfig.build.json",
     "test": "env JEST_ROOT_DIR=packages/simpldi jest --config ../../jest.config.js"
   },
+  "dependencies": {
+    "reflect-metadata": "~0.2.2"
+  },
   "devDependencies": {
     "@swc/core": "~1.9.1",
     "@swc/jest": "~0.2.37",
