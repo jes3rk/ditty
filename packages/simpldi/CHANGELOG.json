@@ -1,0 +1,17 @@
+{
+  "name": "@dtty/simpldi",
+  "entries": [
+    {
+      "version": "0.1.0",
+      "tag": "@dtty/simpldi_v0.1.0",
+      "date": "Fri, 15 Nov 2024 09:33:21 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Initial release"
+          }
+        ]
+      }
+    }
+  ]
+}
