@@ -1,17 +1,14 @@
 {
-  "name": "@dtty/simpldi",
-  "version": "0.1.0",
-  "description": "Simple and compact Dependency Injection library for TS",
+  "name": "@dtty/contracts",
+  "version": "0.0.0",
+  "description": "Contracts used in ditty applications",
   "license": "ISC",
   "author": "",
   "main": "dist/index.js",
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "npm run prebuild && tsc -p tsconfig.build.json",
-    "test": "env JEST_ROOT_DIR=packages/simpldi jest --config ../../jest.config.js"
-  },
-  "dependencies": {
-    "reflect-metadata": "~0.2.2"
+    "test": "env JEST_ROOT_DIR=packages/contracts jest --config ../../jest.config.js"
   },
   "devDependencies": {
     "@swc/core": "~1.11.24",

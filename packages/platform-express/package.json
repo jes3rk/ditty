@@ -1,0 +1,27 @@
+{
+  "name": "@dtty/platform-express",
+  "version": "0.0.0",
+  "description": "Ditty application for express",
+  "license": "ISC",
+  "author": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "prebuild": "rimraf ./dist",
+    "build": "npm run prebuild && tsc -p tsconfig.build.json",
+    "test": "env JEST_ROOT_DIR=packages/platform-express jest --config ../../jest.config.js",
+    "test:e2e": "jest --config ./test/jest-e2e.config.js"
+  },
+  "dependencies": {
+    "@dtty/contracts": "workspace:*",
+    "@dtty/core": "workspace:*",
+    "@dtty/simpldi": "workspace:*"
+  },
+  "devDependencies": {
+    "@swc/core": "~1.11.21",
+    "@swc/jest": "~0.2.38",
+    "@types/jest": "~29.5.14",
+    "jest": "~29.7.0",
+    "rimraf": "~6.0.1",
+    "typescript": "~5.8.3"
+  }
+}

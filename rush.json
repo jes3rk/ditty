@@ -335,6 +335,24 @@
       "projectFolder": "packages/simpldi",
       "shouldPublish": true,
       "tags": ["package"]
+    },
+    {
+      "packageName": "@dtty/contracts",
+      "projectFolder": "packages/contracts",
+      "shouldPublish": true,
+      "tags": ["package"]
+    },
+    {
+      "packageName": "@dtty/core",
+      "projectFolder": "packages/core",
+      "shouldPublish": true,
+      "tags": ["package"]
+    },
+    {
+      "packageName": "@dtty/platform-express",
+      "projectFolder": "packages/platform-express",
+      "shouldPublish": true,
+      "tags": ["package"]
     }
     // {
     //   /**
