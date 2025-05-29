@@ -1,17 +1,16 @@
 import type { Express, RequestHandler, Request, Response } from "express";
 import { DttyCore, HandlerFunction } from "@dtty/core";
 
-export class DttyExpress {
-  private readonly core: DttyCore;
+export class DttyExpress extends DttyCore {
   constructor(private readonly app: Express) {
-    this.core = new DttyCore();
+    super();
   }
 
   private mapToExpress(
     handler: HandlerFunction,
   ): RequestHandler<any, any, any> {
     return async (_: Request, res: Response) => {
-      const response = await this.core.handleRequest(handler);
+      const response = await this.handleRequest(handler);
       res.send(response);
     };
   }

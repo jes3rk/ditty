@@ -6,11 +6,9 @@ const dtty = new DttyExpress(app);
 
 dtty.get("/dtty", () => "Success");
 
-const router = express.Router();
-router.get("/", (_, res) => {
+app.get("/", (_, res) => {
   res.send("Hello World");
 });
-router.get("/express", (_, res) => {
+app.get("/express", (_, res) => {
   res.send("Success");
 });
-app.use(router);
