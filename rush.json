@@ -339,20 +339,17 @@
     {
       "packageName": "@dtty/contracts",
       "projectFolder": "packages/contracts",
-      "shouldPublish": true,
-      "tags": ["package"]
+      "shouldPublish": false
     },
     {
       "packageName": "@dtty/core",
       "projectFolder": "packages/core",
-      "shouldPublish": true,
-      "tags": ["package"]
+      "shouldPublish": false
     },
     {
       "packageName": "@dtty/platform-express",
       "projectFolder": "packages/platform-express",
-      "shouldPublish": true,
-      "tags": ["package"]
+      "shouldPublish": false
     }
     // {
     //   /**
