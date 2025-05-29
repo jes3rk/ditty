@@ -1,4 +1,5 @@
 import { INJECT_META_KEY } from "./inject";
+import { InvalidProviderTypeException } from "./invalid-provider-type.exception";
 import { ProviderNotFoundException } from "./provider-not-found.exception";
 import { Token } from "./token";
 import {
@@ -117,6 +118,8 @@ export class Container {
           ...injectInstances,
         );
         break;
+      default:
+        throw new InvalidProviderTypeException(provider.type);
     }
     await (instance as Partial<IOnProviderInit>).onProviderInit?.();
     if (provider.mode == ProviderMode.SINGLETON)
