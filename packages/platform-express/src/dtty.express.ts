@@ -1,7 +1,6 @@
 import type { Express, RequestHandler, Response } from "express";
-import { DttyCore, HandlerProviderBuilder, IHandler } from "@dtty/core";
+import { DttyCore, IHandler } from "@dtty/core";
 import { IDttyRequest } from "./dtty.request";
-import { Token } from "@dtty/simpldi";
 
 export class DttyExpress extends DttyCore {
   constructor(private readonly app: Express) {
@@ -14,14 +13,7 @@ export class DttyExpress extends DttyCore {
 
   private mapToExpress(handler: IHandler): RequestHandler<any, any, any> {
     return async (req: IDttyRequest, res: Response) => {
-      const token = new Token<unknown>();
-      req.scopedContainer.addProvider(
-        token,
-        new HandlerProviderBuilder(handler.handler).build,
-        {
-          tokenList: handler.injectionTokens || [],
-        },
-      );
+      const token = this.addHandler(req, handler);
       const response = await this.handleRequest(req, token);
       res.send(response);
     };
