@@ -2,6 +2,7 @@ import { Token } from "./token";
 
 export enum ProviderType {
   CLASS,
+  FACTORY,
 }
 
 export enum ProviderMode {
@@ -12,6 +13,8 @@ export enum ProviderMode {
 export interface Constructable<T> {
   new (...args: any[]): T;
 }
+
+export type FunctionType<TRet = any> = (...args: any[]) => TRet;
 
 export interface Provider<T> {
   type: ProviderType;
@@ -26,6 +29,16 @@ export interface IClassProvider<T> extends Provider<T> {
   Constructor: Constructable<T>;
 }
 
+export interface IFactoryProvider<T> extends Provider<T> {
+  type: ProviderType.FACTORY;
+  FactoryFunction: (...args: any[]) => T | Promise<T>;
+}
+
 export interface IOnProviderInit {
   onProviderInit(): void | Promise<void>;
 }
+
+export type AddProviderOptions<T> = Pick<Partial<Provider<T>>, "mode">;
+export type AddFactoryProviderOptions<T> = AddProviderOptions<T> & {
+  tokenList?: Token<any>[];
+};

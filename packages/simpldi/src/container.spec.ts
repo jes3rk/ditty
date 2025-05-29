@@ -142,4 +142,32 @@ describe("Container interactions", () => {
       expect(provider.isInit).toEqual(true);
     });
   });
+
+  describe("Factory provider", () => {
+    const constToken = new Token<string>("constant");
+    const injectionToken = new Token<string>("injected id");
+    function stringFunctionProvider() {
+      return "Hello World";
+    }
+
+    function injectedProviderFunction(provider: ProviderWithNoDeps): string {
+      return provider.Id;
+    }
+
+    it("should resolve the provider and store as a constant", async () => {
+      rootContainer.addProvider(constToken, stringFunctionProvider);
+      const provider = await rootContainer.resolveProvider(constToken);
+      expect(provider).toEqual("Hello World");
+    });
+
+    it("should inject another provider into the function", async () => {
+      rootContainer.addProvider(noDepsToken, ProviderWithNoDeps);
+      rootContainer.addProvider(injectionToken, injectedProviderFunction, {
+        tokenList: [noDepsToken],
+      });
+      const result = await rootContainer.resolveProvider(injectionToken);
+      const control = await rootContainer.resolveProvider(noDepsToken);
+      expect(result).toEqual(control.Id);
+    });
+  });
 });

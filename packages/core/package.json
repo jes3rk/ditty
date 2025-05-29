@@ -15,7 +15,7 @@
     "@dtty/simpldi": "workspace:*"
   },
   "devDependencies": {
-    "@swc/core": "~1.11.24",
+    "@swc/core": "~1.11.29",
     "@swc/jest": "~0.2.38",
     "@types/jest": "~29.5.14",
     "jest": "~29.7.0",
