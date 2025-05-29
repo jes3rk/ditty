@@ -2,13 +2,18 @@ import { INJECT_META_KEY } from "./inject";
 import { ProviderNotFoundException } from "./provider-not-found.exception";
 import { Token } from "./token";
 import {
+  AddFactoryProviderOptions,
+  AddProviderOptions,
   Constructable,
+  FunctionType,
   IClassProvider,
+  IFactoryProvider,
   IOnProviderInit,
   Provider,
   ProviderMode,
   ProviderType,
 } from "./types";
+import { isClassDefintion } from "./utils";
 
 /**
  * Dependency injection container
@@ -38,22 +43,46 @@ export class Container {
    **/
   public addProvider<T>(
     token: Token<T>,
-    Constructor: Constructable<T>,
-    options: Pick<Partial<Provider<T>>, "mode"> = {},
+    ProviderBuilder: Constructable<T>,
+    options?: AddProviderOptions<T>,
+  ): void;
+  public addProvider<T>(
+    token: Token<T>,
+    ProviderBuilder: FunctionType<T>,
+    options?: AddFactoryProviderOptions<T>,
+  ): void;
+  public addProvider<T>(
+    token: Token<T>,
+    ProviderBuilder: Constructable<T> | FunctionType<T>,
+    options: AddFactoryProviderOptions<T> = {},
   ): void {
-    const { mode = ProviderMode.SINGLETON } = options;
-    const provider: IClassProvider<T> = {
-      type: ProviderType.CLASS,
-      token,
-      Constructor,
-      inject:
-        (Reflect as any).getOwnMetadata(
-          INJECT_META_KEY,
-          Constructor,
-          undefined,
-        ) || [],
+    const { mode = ProviderMode.SINGLETON, tokenList = [] } = options;
+    let provider: Provider<T>;
+    const seedProvider: Pick<Provider<T>, "mode" | "token"> = {
       mode,
+      token,
     };
+    if (isClassDefintion(ProviderBuilder)) {
+      (provider as IClassProvider<T>) = {
+        ...seedProvider,
+        Constructor: ProviderBuilder as Constructable<T>,
+        inject:
+          (Reflect as any).getOwnMetadata(
+            INJECT_META_KEY,
+            ProviderBuilder,
+            undefined,
+          ) || [],
+        type: ProviderType.CLASS,
+      };
+    } else {
+      (provider as IFactoryProvider<T>) = {
+        ...seedProvider,
+        FactoryFunction: ProviderBuilder as FunctionType<T>,
+        inject: tokenList,
+        type: ProviderType.FACTORY,
+      };
+    }
+
     this.providers.set(token, provider);
   }
 
@@ -80,6 +109,11 @@ export class Container {
     switch (provider.type) {
       case ProviderType.CLASS:
         instance = new (provider as IClassProvider<T>).Constructor(
+          ...injectInstances,
+        );
+        break;
+      case ProviderType.FACTORY:
+        instance = await (provider as IFactoryProvider<T>).FactoryFunction(
           ...injectInstances,
         );
         break;
