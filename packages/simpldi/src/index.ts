@@ -5,6 +5,7 @@ export { Token } from "./token";
 export {
   AddFactoryProviderOptions,
   AddProviderOptions,
+  FunctionType,
   ProviderType,
   ProviderMode,
   Constructable,
