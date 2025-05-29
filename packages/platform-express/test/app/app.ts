@@ -1,7 +1,7 @@
 import * as express from "express";
 import { DttyExpress } from "../../src";
 
-export const app = express();
+export const app: express.Express = express();
 const dtty = new DttyExpress(app);
 
 dtty.get("/dtty", () => "Success");
