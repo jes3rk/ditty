@@ -1,6 +1,6 @@
 {
   "name": "@dtty/simpldi",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Simple and compact Dependency Injection library for TS",
   "license": "ISC",
   "author": "",
