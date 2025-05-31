@@ -1,6 +1,13 @@
 # Change Log - @dtty/simpldi
 
-This log was last generated on Thu, 29 May 2025 12:30:49 GMT and should not be manually modified.
+This log was last generated on Sat, 31 May 2025 12:44:16 GMT and should not be manually modified.
+
+## 0.2.1
+Sat, 31 May 2025 12:44:16 GMT
+
+### Patches
+
+- Add additional export and npm ignore file
 
 ## 0.2.0
 Thu, 29 May 2025 12:30:49 GMT
