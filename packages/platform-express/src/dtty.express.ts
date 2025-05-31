@@ -23,4 +23,19 @@ export class DttyExpress extends DttyCore {
     this.app.get(path, this.mapToExpress(handler));
     return this;
   }
+
+  public post(path: string, handler: IHandler): DttyExpress {
+    this.app.post(path, this.mapToExpress(handler));
+    return this;
+  }
+
+  public put(path: string, handler: IHandler): DttyExpress {
+    this.app.put(path, this.mapToExpress(handler));
+    return this;
+  }
+
+  public delete(path: string, handler: IHandler): DttyExpress {
+    this.app.delete(path, this.mapToExpress(handler));
+    return this;
+  }
 }
