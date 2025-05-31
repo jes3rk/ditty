@@ -11,7 +11,6 @@
     "test": "env JEST_ROOT_DIR=packages/core jest --config ../../jest.config.js"
   },
   "dependencies": {
-    "@dtty/contracts": "workspace:*",
     "@dtty/simpldi": "workspace:*"
   },
   "devDependencies": {

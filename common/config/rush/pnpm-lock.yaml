@@ -8,32 +8,8 @@ importers:
 
   .: {}
 
-  ../../packages/contracts:
-    devDependencies:
-      '@swc/core':
-        specifier: ~1.11.29
-        version: 1.11.29
-      '@swc/jest':
-        specifier: ~0.2.38
-        version: 0.2.38(@swc/core@1.11.29)
-      '@types/jest':
-        specifier: ~29.5.14
-        version: 29.5.14
-      jest:
-        specifier: ~29.7.0
-        version: 29.7.0
-      rimraf:
-        specifier: ~6.0.1
-        version: 6.0.1
-      typescript:
-        specifier: ~5.8.3
-        version: 5.8.3
-
   ../../packages/core:
     dependencies:
-      '@dtty/contracts':
-        specifier: workspace:*
-        version: link:../contracts
       '@dtty/simpldi':
         specifier: workspace:*
         version: link:../simpldi
@@ -62,9 +38,6 @@ importers:
 
   ../../packages/platform-express:
     dependencies:
-      '@dtty/contracts':
-        specifier: workspace:*
-        version: link:../contracts
       '@dtty/core':
         specifier: workspace:*
         version: link:../core

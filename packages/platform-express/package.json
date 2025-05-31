@@ -12,7 +12,6 @@
     "test:e2e": "jest --config ./test/jest-e2e.config.js"
   },
   "dependencies": {
-    "@dtty/contracts": "workspace:*",
     "@dtty/core": "workspace:*",
     "@dtty/simpldi": "workspace:*"
   },
