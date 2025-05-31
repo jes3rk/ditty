@@ -14,7 +14,7 @@ import {
 } from "./request-handler.provider";
 import { IHandler } from "./handler.function";
 
-export class DttyCore {
+export abstract class DttyCore {
   protected readonly globalContainer: Container;
   protected readonly requestScopedProviderTemplates: [
     Token<unknown>,
