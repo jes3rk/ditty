@@ -59,7 +59,7 @@ jobs:
           node common/scripts/install-run-rush.js test
   publsh:
     runs-on: ubuntu-latest
-    needs: [test-packages]
+    needs: [test]
     if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout
