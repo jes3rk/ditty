@@ -337,11 +337,6 @@
       "tags": ["package"]
     },
     {
-      "packageName": "@dtty/contracts",
-      "projectFolder": "packages/contracts",
-      "shouldPublish": false
-    },
-    {
       "packageName": "@dtty/core",
       "projectFolder": "packages/core",
       "shouldPublish": false

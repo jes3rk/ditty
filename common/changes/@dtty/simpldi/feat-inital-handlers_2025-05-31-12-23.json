@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@dtty/simpldi",
+      "comment": "Add additional export and npm ignore file",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@dtty/simpldi"
+}
