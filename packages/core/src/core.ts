@@ -13,18 +13,17 @@ import {
   IHandlerProvider,
 } from "./request-handler.provider";
 import { IHandler } from "./handler.function";
+import { IModule, IProvider } from "@dtty/module";
+import { CoreModule } from "./core.module";
 
 export abstract class DttyCore {
   protected readonly globalContainer: Container;
-  protected readonly requestScopedProviderTemplates: [
-    Token<unknown>,
-    Constructable<unknown> | FunctionType<unknown>,
-    AddFactoryProviderOptions<unknown>,
-  ][];
+  protected readonly requestScopedProviderTemplates: IProvider[];
 
   constructor() {
     this.globalContainer = new Container();
     this.requestScopedProviderTemplates = [];
+    this.mountModule(new CoreModule());
   }
 
   public async handleRequest(
@@ -39,7 +38,11 @@ export abstract class DttyCore {
   public getRequestContainer(): Container {
     const container = this.globalContainer.createChildContainer();
     for (const providerArgs of this.requestScopedProviderTemplates) {
-      container.addProvider.call(container, ...providerArgs);
+      container.addProvider(
+        providerArgs.token,
+        providerArgs.provider as any,
+        providerArgs.options,
+      );
     }
     return container;
   }
@@ -78,7 +81,11 @@ export abstract class DttyCore {
     Provider: Constructable<T> | FunctionType<T>,
     options?: AddFactoryProviderOptions<T>,
   ): typeof this {
-    this.requestScopedProviderTemplates.push([token, Provider, options]);
+    this.requestScopedProviderTemplates.push({
+      token,
+      provider: Provider as any,
+      options,
+    });
     return this;
   }
 
@@ -96,5 +103,19 @@ export abstract class DttyCore {
       },
     );
     return token;
+  }
+
+  public mountModule(module: IModule): typeof this {
+    module
+      .getGlobalProviders()
+      .forEach((provider) =>
+        this.addGlobalProvider(
+          provider.token,
+          provider.provider as any,
+          provider.options,
+        ),
+      );
+    this.requestScopedProviderTemplates.push(...module.getRequestProviders());
+    return this;
   }
 }

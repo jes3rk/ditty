@@ -10,6 +10,9 @@ importers:
 
   ../../packages/core:
     dependencies:
+      '@dtty/module':
+        specifier: workspace:*
+        version: link:../module
       '@dtty/simpldi':
         specifier: workspace:*
         version: link:../simpldi
@@ -29,6 +32,30 @@ importers:
       reflect-metadata:
         specifier: ~0.2.2
         version: 0.2.2
+      rimraf:
+        specifier: ~6.0.1
+        version: 6.0.1
+      typescript:
+        specifier: ~5.8.3
+        version: 5.8.3
+
+  ../../packages/module:
+    devDependencies:
+      '@dtty/simpldi':
+        specifier: workspace:*
+        version: link:../simpldi
+      '@swc/core':
+        specifier: ~1.11.29
+        version: 1.11.29
+      '@swc/jest':
+        specifier: ~0.2.38
+        version: 0.2.38(@swc/core@1.11.29)
+      '@types/jest':
+        specifier: ~29.5.14
+        version: 29.5.14
+      jest:
+        specifier: ~29.7.0
+        version: 29.7.0
       rimraf:
         specifier: ~6.0.1
         version: 6.0.1

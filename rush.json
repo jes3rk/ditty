@@ -342,6 +342,11 @@
       "shouldPublish": false
     },
     {
+      "packageName": "@dtty/module",
+      "projectFolder": "packages/module",
+      "shouldPublish": false
+    },
+    {
       "packageName": "@dtty/platform-express",
       "projectFolder": "packages/platform-express",
       "shouldPublish": false
