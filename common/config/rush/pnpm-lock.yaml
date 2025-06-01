@@ -10,6 +10,9 @@ importers:
 
   ../../packages/core:
     dependencies:
+      '@dtty/module':
+        specifier: workspace:*
+        version: link:../module
       '@dtty/simpldi':
         specifier: workspace:*
         version: link:../simpldi
@@ -38,6 +41,9 @@ importers:
 
   ../../packages/module:
     devDependencies:
+      '@dtty/simpldi':
+        specifier: workspace:*
+        version: link:../simpldi
       '@swc/core':
         specifier: ~1.11.29
         version: 1.11.29
